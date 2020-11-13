@@ -35,7 +35,7 @@ z_scores(x_vec)
 }
 ```
 
-Try my function on some other things
+Try my function on some other things. THese should give errors.
 
 ```{r, error=TRUE}
 z_scores(3)
@@ -45,6 +45,39 @@ z_scores("my name is Jeff")
 z_scores (mtcars)
 
 z_scores(c(TRUE, TRUE, FALSE, TRUE))
+```
+
+## Multiple Outputs
+
+```{r}
+
+
+mean_and_sd= function(x) {
+  
+  if (!is.numeric(x)) {
+    stop("Input must be numeric")
+  }
+  
+  if (length(x)< 3) {
+    stop("Input must have at least three numbers")
+  }
+     
+ mean_x=mean(x)
+ sd_x=sd(x)
+ 
+ tibble(
+   mean=mean_x,
+   sd= sd_x
+ )
+
+}
+```
+
+Check that the function works
+
+```{r}
+x_vec=rnorm (1000)
+mean_and_sd(x_vec)
 ```
 
 

@@ -399,11 +399,11 @@ summary {
 <pre class="r"><code>x_vec= rnorm(30, mean=5, sd=3)
 
 (x_vec-mean(x_vec))/sd(x_vec)</code></pre>
-<pre><code>##  [1] -0.31596628  0.13947774 -0.14343971 -1.50338438  1.71400458 -0.99350513
-##  [7]  0.23578175 -0.09955765 -1.97863966  0.24594121  1.00099571 -0.96155973
-## [13] -0.47536325 -0.19157184  1.46094725 -1.23456215  0.93916793  0.66310954
-## [19] -1.12794550  1.32162080  0.27808689 -0.73099464 -2.05128172  0.50183523
-## [25]  0.61378041  1.16496309  1.15024234 -0.13408674  0.54615173 -0.03424780</code></pre>
+<pre><code>##  [1]  0.7607138  1.4271339 -0.6742400  0.1456543 -1.4243717  0.1055943
+##  [7]  0.5355761 -1.7312149  0.4946688 -2.2208686 -0.1658170  0.9751359
+## [13]  1.9966447  1.4847203  0.1174215 -0.5390528  0.4035578  0.2362578
+## [19]  0.5843735 -0.3878975  0.2496995 -1.3295772 -0.1562800 -1.1031386
+## [25] -0.4202591  1.5779077 -0.3186764  0.5587662 -1.0229638 -0.1594684</code></pre>
 <p>I want a function to compute z-scores</p>
 <pre class="r"><code>z_scores= function(x) {
   
@@ -417,7 +417,7 @@ summary {
   
 z_scores(x_vec)
 }</code></pre>
-<p>Try my function on some other things</p>
+<p>Try my function on some other things. THese should give errors.</p>
 <pre class="r"><code>z_scores(3)</code></pre>
 <pre><code>## [1] NA</code></pre>
 <pre class="r"><code>z_scores(&quot;my name is Jeff&quot;)</code></pre>
@@ -426,6 +426,35 @@ z_scores(x_vec)
 <pre><code>## Error in z_scores(mtcars): Input must be numeric</code></pre>
 <pre class="r"><code>z_scores(c(TRUE, TRUE, FALSE, TRUE))</code></pre>
 <pre><code>## Error in z_scores(c(TRUE, TRUE, FALSE, TRUE)): Input must be numeric</code></pre>
+</div>
+<div id="multiple-outputs" class="section level2">
+<h2>Multiple Outputs</h2>
+<pre class="r"><code>mean_and_sd= function(x) {
+  
+  if (!is.numeric(x)) {
+    stop(&quot;Input must be numeric&quot;)
+  }
+  
+  if (length(x)&lt; 3) {
+    stop(&quot;Input must have at least three numbers&quot;)
+  }
+     
+ mean_x=mean(x)
+ sd_x=sd(x)
+ 
+ tibble(
+   mean=mean_x,
+   sd= sd_x
+ )
+
+}</code></pre>
+<p>Check that the function works</p>
+<pre class="r"><code>x_vec=rnorm (1000)
+mean_and_sd(x_vec)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##       mean    sd
+##      &lt;dbl&gt; &lt;dbl&gt;
+## 1 -0.00396  1.02</code></pre>
 </div>
 
 
