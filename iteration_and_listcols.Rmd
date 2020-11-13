@@ -148,3 +148,75 @@ listcol_df %>%
          medians = map_dbl (samp, median))
 ```
 
+```{r}
+weather_df = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728", "USC00519397", "USS0023B17S"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2017-01-01",
+    date_max = "2017-12-31") %>%
+  mutate(
+    name = recode(
+      id, 
+      USW00094728 = "CentralPark_NY", 
+      USC00519397 = "Waikiki_HA",
+      USS0023B17S = "Waterhole_WA"),
+    tmin = tmin / 10,
+    tmax = tmax / 10) %>%
+  select(name, id, everything())
+```
+
+Get our list columns..
+
+```{r}
+weather_nest=
+  weather_df %>% 
+  nest(data= date:tmin)
+```
+
+```{r}
+weather_nest %>% pull(name)
+weather_nest %>% pull(data)
+
+weather_nest$data[[3]]
+```
+Suppose I want to regress `tmax` on `tmin` for each station
+
+This works
+
+```{r}
+lm(tmax ~ tmin, data=weather_nest$data[[1]])
+```
+
+Let's write a function 
+
+```{r}
+weather_lm= function (df){
+  
+  lm(tmax ~ tmin, data= df )
+}
+
+output= vector("list", 3)
+
+for (i in 1:3) {
+  
+  output[[i]]=weather_lm(weather_nest$data[[i]])
+}
+```
+
+What about a map....?
+
+```{r}
+map(weather_nest$data, weather_lm) 
+```
+
+What about map in a list column!?!
+
+```{r}
+weather_nest=
+weather_nest %>% 
+  mutate(models= map(data, weather_lm))
+
+weather_nest$models
+```
+

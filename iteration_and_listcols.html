@@ -593,6 +593,188 @@ map(list_norm, mean_and_sd)</code></pre>
 listcol_df %&gt;% 
   mutate(summary = map(samp, mean_and_sd),
          medians = map_dbl (samp, median))</code></pre>
+<pre class="r"><code>weather_df = 
+  rnoaa::meteo_pull_monitors(
+    c(&quot;USW00094728&quot;, &quot;USC00519397&quot;, &quot;USS0023B17S&quot;),
+    var = c(&quot;PRCP&quot;, &quot;TMIN&quot;, &quot;TMAX&quot;), 
+    date_min = &quot;2017-01-01&quot;,
+    date_max = &quot;2017-12-31&quot;) %&gt;%
+  mutate(
+    name = recode(
+      id, 
+      USW00094728 = &quot;CentralPark_NY&quot;, 
+      USC00519397 = &quot;Waikiki_HA&quot;,
+      USS0023B17S = &quot;Waterhole_WA&quot;),
+    tmin = tmin / 10,
+    tmax = tmax / 10) %&gt;%
+  select(name, id, everything())</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;hoardr&#39;:
+##   method           from
+##   print.cache_info httr</code></pre>
+<pre><code>## using cached file: /Users/akanksha/Library/Caches/R/noaa_ghcnd/USW00094728.dly</code></pre>
+<pre><code>## date created (size, mb): 2020-10-04 08:12:57 (7.522)</code></pre>
+<pre><code>## file min/max dates: 1869-01-01 / 2020-10-31</code></pre>
+<pre><code>## using cached file: /Users/akanksha/Library/Caches/R/noaa_ghcnd/USC00519397.dly</code></pre>
+<pre><code>## date created (size, mb): 2020-10-04 08:13:07 (1.699)</code></pre>
+<pre><code>## file min/max dates: 1965-01-01 / 2020-03-31</code></pre>
+<pre><code>## using cached file: /Users/akanksha/Library/Caches/R/noaa_ghcnd/USS0023B17S.dly</code></pre>
+<pre><code>## date created (size, mb): 2020-10-04 08:13:11 (0.88)</code></pre>
+<pre><code>## file min/max dates: 1999-09-01 / 2020-10-31</code></pre>
+<p>Get our list columns..</p>
+<pre class="r"><code>weather_nest=
+  weather_df %&gt;% 
+  nest(data= date:tmin)</code></pre>
+<pre class="r"><code>weather_nest %&gt;% pull(name)</code></pre>
+<pre><code>## [1] &quot;CentralPark_NY&quot; &quot;Waikiki_HA&quot;     &quot;Waterhole_WA&quot;</code></pre>
+<pre class="r"><code>weather_nest %&gt;% pull(data)</code></pre>
+<pre><code>## [[1]]
+## # A tibble: 365 x 4
+##    date        prcp  tmax  tmin
+##    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2017-01-01     0   8.9   4.4
+##  2 2017-01-02    53   5     2.8
+##  3 2017-01-03   147   6.1   3.9
+##  4 2017-01-04     0  11.1   1.1
+##  5 2017-01-05     0   1.1  -2.7
+##  6 2017-01-06    13   0.6  -3.8
+##  7 2017-01-07    81  -3.2  -6.6
+##  8 2017-01-08     0  -3.8  -8.8
+##  9 2017-01-09     0  -4.9  -9.9
+## 10 2017-01-10     0   7.8  -6  
+## # … with 355 more rows
+## 
+## [[2]]
+## # A tibble: 365 x 4
+##    date        prcp  tmax  tmin
+##    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2017-01-01     0  26.7  16.7
+##  2 2017-01-02     0  27.2  16.7
+##  3 2017-01-03     0  27.8  17.2
+##  4 2017-01-04     0  27.2  16.7
+##  5 2017-01-05     0  27.8  16.7
+##  6 2017-01-06     0  27.2  16.7
+##  7 2017-01-07     0  27.2  16.7
+##  8 2017-01-08     0  25.6  15  
+##  9 2017-01-09     0  27.2  15.6
+## 10 2017-01-10     0  28.3  17.2
+## # … with 355 more rows
+## 
+## [[3]]
+## # A tibble: 365 x 4
+##    date        prcp  tmax  tmin
+##    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2017-01-01   432  -6.8 -10.7
+##  2 2017-01-02    25 -10.5 -12.4
+##  3 2017-01-03     0  -8.9 -15.9
+##  4 2017-01-04     0  -9.9 -15.5
+##  5 2017-01-05     0  -5.9 -14.2
+##  6 2017-01-06     0  -4.4 -11.3
+##  7 2017-01-07    51   0.6 -11.5
+##  8 2017-01-08    76   2.3  -1.2
+##  9 2017-01-09    51  -1.2  -7  
+## 10 2017-01-10     0  -5   -14.2
+## # … with 355 more rows</code></pre>
+<pre class="r"><code>weather_nest$data[[3]]</code></pre>
+<pre><code>## # A tibble: 365 x 4
+##    date        prcp  tmax  tmin
+##    &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 2017-01-01   432  -6.8 -10.7
+##  2 2017-01-02    25 -10.5 -12.4
+##  3 2017-01-03     0  -8.9 -15.9
+##  4 2017-01-04     0  -9.9 -15.5
+##  5 2017-01-05     0  -5.9 -14.2
+##  6 2017-01-06     0  -4.4 -11.3
+##  7 2017-01-07    51   0.6 -11.5
+##  8 2017-01-08    76   2.3  -1.2
+##  9 2017-01-09    51  -1.2  -7  
+## 10 2017-01-10     0  -5   -14.2
+## # … with 355 more rows</code></pre>
+<p>Suppose I want to regress <code>tmax</code> on <code>tmin</code> for each station</p>
+<p>This works</p>
+<pre class="r"><code>lm(tmax ~ tmin, data=weather_nest$data[[1]])</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = tmax ~ tmin, data = weather_nest$data[[1]])
+## 
+## Coefficients:
+## (Intercept)         tmin  
+##       7.209        1.039</code></pre>
+<p>Let’s write a function</p>
+<pre class="r"><code>weather_lm= function (df){
+  
+  lm(tmax ~ tmin, data= df )
+}
+
+output= vector(&quot;list&quot;, 3)
+
+for (i in 1:3) {
+  
+  output[[i]]=weather_lm(weather_nest$data[[i]])
+}</code></pre>
+<p>What about a map….?</p>
+<pre class="r"><code>map(weather_nest$data, weather_lm) </code></pre>
+<pre><code>## [[1]]
+## 
+## Call:
+## lm(formula = tmax ~ tmin, data = df)
+## 
+## Coefficients:
+## (Intercept)         tmin  
+##       7.209        1.039  
+## 
+## 
+## [[2]]
+## 
+## Call:
+## lm(formula = tmax ~ tmin, data = df)
+## 
+## Coefficients:
+## (Intercept)         tmin  
+##     20.0966       0.4509  
+## 
+## 
+## [[3]]
+## 
+## Call:
+## lm(formula = tmax ~ tmin, data = df)
+## 
+## Coefficients:
+## (Intercept)         tmin  
+##       7.499        1.221</code></pre>
+<p>What about map in a list column!?!</p>
+<pre class="r"><code>weather_nest=
+weather_nest %&gt;% 
+  mutate(models= map(data, weather_lm))
+
+weather_nest$models</code></pre>
+<pre><code>## [[1]]
+## 
+## Call:
+## lm(formula = tmax ~ tmin, data = df)
+## 
+## Coefficients:
+## (Intercept)         tmin  
+##       7.209        1.039  
+## 
+## 
+## [[2]]
+## 
+## Call:
+## lm(formula = tmax ~ tmin, data = df)
+## 
+## Coefficients:
+## (Intercept)         tmin  
+##     20.0966       0.4509  
+## 
+## 
+## [[3]]
+## 
+## Call:
+## lm(formula = tmax ~ tmin, data = df)
+## 
+## Coefficients:
+## (Intercept)         tmin  
+##       7.499        1.221</code></pre>
 </div>
 
 
