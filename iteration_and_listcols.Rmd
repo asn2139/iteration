@@ -5,7 +5,88 @@ output: html_document
 
 ```{r}
 library(tidyverse)
-
+library(rvest)
 set.seed(1)
+```
+
+## Lists
+
+You can put anything in a list
+
+```{r}
+l= list(
+vec_numeric= 5:8,
+vec_logical= c(TRUE, TRUE, FALSE, TRUE, FALSE, FALSE),
+mat= matrix(1:8, nrow=2, ncol=4),
+summary=summary(rnorm(100))
+)
+```
+
+```{r}
+l
+l$vec_numeric
+l[[1]]
+mean(l[[ "vec_numeric"]])
+```
+
+## 'for' loop
+
+Create a new list.
+
+```{r}
+list_norm=
+  list(
+    a=rnorm(20, mean=3, sd=1),
+    b=rnorm(20, mean=5, sd=1),
+    c=rnorm(20, mean=10, sd=0.2),
+    d=rnorm(20, mean=-3, sd=1)
+    
+  )
+```
+
+```{r}
+list_norm
+```
+
+Pause and get my old junction
+
+```{r}
+mean_and_sd= function(x) {
+  
+  if (!is.numeric(x)) {
+    stop("Input must be numeric")
+  }
+  
+  if (length(x)< 3) {
+    stop("Input must have at least three numbers")
+  }
+     
+ mean_x=mean(x)
+ sd_x=sd(x)
+ 
+ tibble(
+   mean=mean_x,
+   sd= sd_x
+ )
+
+}
+```
+I can apply that function each list element
+```{r}
+mean_and_sd(list_norm[[1]])
+mean_and_sd(list_norm[[2]])
+mean_and_sd(list_norm[[3]])
+mean_and_sd(list_norm[[4]])
+
+```
+Let's use a for loop
+
+```{r}
+output= vector("list", length=4)
+
+for (i in 1:4) {
+
+output[[1]]=mean_and_sd(list_norm[[i]])
+}
 ```
 
