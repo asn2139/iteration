@@ -3,3 +3,9 @@ title: "simulation"
 output: html_document
 ---
 
+```{r}
+library(tidyverse)
+
+set.seed(1)
+```
+
