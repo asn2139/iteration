@@ -75,9 +75,48 @@ mean_and_sd= function(x) {
 
 Check that the function works
 
+
 ```{r}
 x_vec=rnorm (1000)
 mean_and_sd(x_vec)
+```
+
+## Multiple Inputs
+
+I'd like to do this with a function.
+
+```{r}
+
+sim_data= 
+  tibble(
+    x=rnorm(n=100, mean=4, sd=3)
+  )
+sim_data %>% 
+  summarize(
+    mean=mean(x),
+    sd=sd(x)
+  )
+```
+
+```{r}
+sim_mean_sd= function (samp_size, mu = 3, sigma = 4){
+
+  sim_data= 
+    tibble(
+     x=rnorm(n=samp_size, mean=mu, sd=sigma)
+  )
+  
+sim_data %>% 
+  summarize(
+    mean=mean(x),
+    sd=sd(x)
+  )
+}
+
+sim_mean_sd(samp_size=100,mu=6, sigma= 3)
+sim_mean_sd(mu=6, samp_size= 100, sigma=3)
+
+sim_mean_sd(samp_size=100)
 ```
 
 

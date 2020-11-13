@@ -399,11 +399,11 @@ summary {
 <pre class="r"><code>x_vec= rnorm(30, mean=5, sd=3)
 
 (x_vec-mean(x_vec))/sd(x_vec)</code></pre>
-<pre><code>##  [1]  0.7607138  1.4271339 -0.6742400  0.1456543 -1.4243717  0.1055943
-##  [7]  0.5355761 -1.7312149  0.4946688 -2.2208686 -0.1658170  0.9751359
-## [13]  1.9966447  1.4847203  0.1174215 -0.5390528  0.4035578  0.2362578
-## [19]  0.5843735 -0.3878975  0.2496995 -1.3295772 -0.1562800 -1.1031386
-## [25] -0.4202591  1.5779077 -0.3186764  0.5587662 -1.0229638 -0.1594684</code></pre>
+<pre><code>##  [1]  0.08828796  0.41305216 -0.18726894  1.42061158  0.33665779 -1.34656383
+##  [7]  0.76124244 -0.21876828  0.86183181  1.37472445  0.36054319 -0.84077009
+## [13] -0.22738335 -1.13097409  1.13053482  0.45286408  0.30412067 -1.60234404
+## [19]  0.56274359  0.89677554  0.33520110  0.85862601 -2.18375714  1.54502473
+## [25] -0.86459206  0.59871062  0.14976681 -1.35508171 -1.05933145 -1.43448436</code></pre>
 <p>I want a function to compute z-scores</p>
 <pre class="r"><code>z_scores= function(x) {
   
@@ -452,9 +452,55 @@ z_scores(x_vec)
 <pre class="r"><code>x_vec=rnorm (1000)
 mean_and_sd(x_vec)</code></pre>
 <pre><code>## # A tibble: 1 x 2
-##       mean    sd
-##      &lt;dbl&gt; &lt;dbl&gt;
-## 1 -0.00396  1.02</code></pre>
+##      mean    sd
+##     &lt;dbl&gt; &lt;dbl&gt;
+## 1 -0.0353 0.951</code></pre>
+</div>
+<div id="multiple-inputs" class="section level2">
+<h2>Multiple Inputs</h2>
+<p>I’d like to do this with a function.</p>
+<pre class="r"><code>sim_data= 
+  tibble(
+    x=rnorm(n=100, mean=4, sd=3)
+  )
+sim_data %&gt;% 
+  summarize(
+    mean=mean(x),
+    sd=sd(x)
+  )</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    mean    sd
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  3.95  2.89</code></pre>
+<pre class="r"><code>sim_mean_sd= function (samp_size, mu = 3, sigma = 4){
+
+  sim_data= 
+    tibble(
+     x=rnorm(n=samp_size, mean=mu, sd=sigma)
+  )
+  
+sim_data %&gt;% 
+  summarize(
+    mean=mean(x),
+    sd=sd(x)
+  )
+}
+
+sim_mean_sd(samp_size=100,mu=6, sigma= 3)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    mean    sd
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  6.01  3.17</code></pre>
+<pre class="r"><code>sim_mean_sd(mu=6, samp_size= 100, sigma=3)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    mean    sd
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  6.63  3.40</code></pre>
+<pre class="r"><code>sim_mean_sd(samp_size=100)</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##    mean    sd
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  2.57  3.79</code></pre>
 </div>
 
 
