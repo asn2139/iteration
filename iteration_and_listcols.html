@@ -588,6 +588,11 @@ map(list_norm, mean_and_sd)</code></pre>
 ##    mean    sd
 ##   &lt;dbl&gt; &lt;dbl&gt;
 ## 1 -2.52 0.974</code></pre>
+<p>So ….. an I add a list column??</p>
+<pre class="r"><code>listcol_df=
+listcol_df %&gt;% 
+  mutate(summary = map(samp, mean_and_sd),
+         medians = map_dbl (samp, median))</code></pre>
 </div>
 
 

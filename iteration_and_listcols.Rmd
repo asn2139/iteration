@@ -139,4 +139,12 @@ Can I just ....map?
 ```{r}
 map(listcol_df$samp, mean_and_sd)
 ```
+So ..... an I add a list column??
+
+```{r}
+listcol_df=
+listcol_df %>% 
+  mutate(summary = map(samp, mean_and_sd),
+         medians = map_dbl (samp, median))
+```
 
