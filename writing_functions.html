@@ -399,11 +399,11 @@ summary {
 <pre class="r"><code>x_vec= rnorm(30, mean=5, sd=3)
 
 (x_vec-mean(x_vec))/sd(x_vec)</code></pre>
-<pre><code>##  [1]  1.36687115 -1.48529878 -2.60205009 -0.27071124 -0.74615530  0.88914342
-##  [7]  0.30576230 -1.07132855 -0.18608682  0.95360730 -1.36152769  0.03024947
-## [13]  0.68416335  0.45793463  1.65411922  1.10771583  1.62732535 -0.35343469
-## [19] -0.32125957 -0.38357397  1.07476472 -0.49486608  0.38433198  0.51389823
-## [25] -0.45429547 -0.28169507 -0.19821823  0.67013061  0.05294561 -1.56246160</code></pre>
+<pre><code>##  [1] -1.53566167 -0.58253291  0.06762677 -2.05586879 -0.17693869 -0.33101332
+##  [7]  0.04610813 -0.20893740 -0.12583081 -0.19081762 -0.25896838 -0.07258635
+## [13] -0.28967678 -0.85592339  0.06370222  0.51727256  0.72796468  0.01392333
+## [19]  1.44146643 -0.18984593  0.81496396 -1.97014326  2.06742198 -0.06494685
+## [25] -0.57045327 -0.24120068 -0.31631825  2.67006987  0.41666858  1.19047584</code></pre>
 <p>I want a function to compute z-scores</p>
 <pre class="r"><code>z_scores= function(x) {
   
@@ -452,9 +452,9 @@ z_scores(x_vec)
 <pre class="r"><code>x_vec=rnorm (1000)
 mean_and_sd(x_vec)</code></pre>
 <pre><code>## # A tibble: 1 x 2
-##     mean    sd
-##    &lt;dbl&gt; &lt;dbl&gt;
-## 1 0.0297  1.01</code></pre>
+##      mean    sd
+##     &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.00456  1.01</code></pre>
 </div>
 <div id="multiple-inputs" class="section level2">
 <h2>Multiple Inputs</h2>
@@ -471,7 +471,7 @@ sim_data %&gt;%
 <pre><code>## # A tibble: 1 x 2
 ##    mean    sd
 ##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  4.30  2.88</code></pre>
+## 1  3.83  2.55</code></pre>
 <pre class="r"><code>sim_mean_sd= function (samp_size, mu = 3, sigma = 4){
 
   sim_data= 
@@ -490,17 +490,17 @@ sim_mean_sd(samp_size=100,mu=6, sigma= 3)</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##    mean    sd
 ##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  6.15  3.14</code></pre>
+## 1  6.34  2.72</code></pre>
 <pre class="r"><code>sim_mean_sd(mu=6, samp_size= 100, sigma=3)</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##    mean    sd
 ##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  5.87  3.05</code></pre>
+## 1  6.09  3.16</code></pre>
 <pre class="r"><code>sim_mean_sd(samp_size=100)</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##    mean    sd
 ##   &lt;dbl&gt; &lt;dbl&gt;
-## 1  2.81  4.06</code></pre>
+## 1  3.37  4.24</code></pre>
 </div>
 <div id="lets-review-napoleon-dynamite" class="section level2">
 <h2>Let’s review Napoleon Dynamite</h2>
@@ -636,6 +636,22 @@ y=2
 
 f(x=y)</code></pre>
 <pre><code>## [1] 4</code></pre>
+</div>
+<div id="functions-as-arguments" class="section level2">
+<h2>Functions as arguments</h2>
+<pre class="r"><code>my_summary= function(x, summ_func){
+  
+  summ_func(x)
+}
+
+x_vec= rnorm(100,3,7)
+
+mean(x_vec)</code></pre>
+<pre><code>## [1] 2.119072</code></pre>
+<pre class="r"><code>median(x_vec)</code></pre>
+<pre><code>## [1] 2.316096</code></pre>
+<pre class="r"><code>my_summary(x_vec, mean)</code></pre>
+<pre><code>## [1] 2.119072</code></pre>
 </div>
 
 

@@ -259,3 +259,19 @@ y=2
 f(x=y)
 ```
 
+## Functions as arguments
+
+```{r}
+my_summary= function(x, summ_func){
+  
+  summ_func(x)
+}
+
+x_vec= rnorm(100,3,7)
+
+mean(x_vec)
+median(x_vec)
+
+my_summary(x_vec, mean)
+```
+
