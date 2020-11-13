@@ -23,6 +23,10 @@ I want a function to compute z-scores
 
 z_scores= function(x) {
   
+  if (!is.numeric(x)) {
+    stop("Input must be numeric")
+  }
+    
   z=(x-mean(x))/ sd(x)
   
   return (z)
@@ -33,7 +37,7 @@ z_scores(x_vec)
 
 Try my function on some other things
 
-```{r}
+```{r, error=TRUE}
 z_scores(3)
 
 z_scores("my name is Jeff")
