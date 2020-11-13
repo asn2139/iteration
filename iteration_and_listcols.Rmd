@@ -102,3 +102,41 @@ What if you want a different function?
 output= map(list_norm, median)
 ```
 
+```{r}
+output= map_dbl(list_norm, median, .id="input")
+```
+
+```{r}
+output= map_df(list_norm, mean_and_sd, .id="input")
+```
+
+## List Columns
+
+```{r}
+listcol_df=
+  tibble(
+    name=c("a", "b", "c", "d"),
+    samp= list_norm
+  )
+```
+
+```{r}
+listcol_df %>% pull(name)
+listcol_df %>% pull(samp)
+
+listcol_df %>% 
+  filter(name== "a")
+```
+
+Let's try some operations
+
+```{r}
+mean_and_sd(listcol_df$samp[[1]])
+mean_and_sd(listcol_df$samp[[2]])
+```
+Can I just ....map?
+
+```{r}
+map(listcol_df$samp, mean_and_sd)
+```
+
