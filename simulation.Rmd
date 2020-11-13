@@ -9,3 +9,61 @@ library(tidyverse)
 set.seed(1)
 ```
 
+```{r}
+sim_mean_sd = function(n, mu = 2, sigma = 3) {
+  
+  sim_data = tibble(
+    x = rnorm(n, mean = mu, sd = sigma),
+  )
+  
+  sim_data %>% 
+    summarize(
+      mu_hat = mean(x),
+      sigma_hat = sd(x)
+    )
+}
+```
+
+```{r}
+sim_mean_sd(30)
+```
+
+## Let's simulate a lot
+
+Let's start with a for loop
+
+```{r}
+
+output= vector("list",100)
+
+for (i in 1:100) 
+  {
+  
+  output [[i]] = sim_mean_sd(30)
+}
+
+bind_rows(output)
+```
+Let's use a loop function.
+
+```{r}
+sim_results=
+rerun(100, sim_mean_sd(30)) %>% 
+  bind_rows()
+```
+Let's look at results
+
+```{r}
+sim_results %>% 
+  ggplot(aes(x=mu_hat))+geom_density()
+
+sim_results %>% 
+  summarize(
+    avg_samp_mean=mean(mu_hat),
+    sd_samp_mean= sd(mu_hat)
+  )
+
+sim_results %>% 
+  ggplot(aes(x=sigma_hat))+geom_density()
+```
+
