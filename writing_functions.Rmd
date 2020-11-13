@@ -17,3 +17,30 @@ x_vec= rnorm(30, mean=5, sd=3)
 
 ```
 
+I want a function to compute z-scores
+
+```{r}
+
+z_scores= function(x) {
+  
+  z=(x-mean(x))/ sd(x)
+  
+  return (z)
+  
+z_scores(x_vec)
+}
+```
+
+Try my function on some other things
+
+```{r}
+z_scores(3)
+
+z_scores("my name is Jeff")
+
+z_scores (mtcars)
+
+z_scores(c(TRUE, TRUE, FALSE, TRUE))
+```
+
+
