@@ -1,0 +1,19 @@
+---
+title: "writing_functions"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(rvest)
+```
+
+## Do something simple
+
+```{r}
+x_vec= rnorm(30, mean=5, sd=3)
+
+(x_vec-mean(x_vec))/sd(x_vec)
+
+```
+
