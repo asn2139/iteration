@@ -507,6 +507,13 @@ for (i in 1:4) {
 output[[1]]=mean_and_sd(list_norm[[i]])
 }</code></pre>
 </div>
+<div id="lets-try-map" class="section level2">
+<h2>Let’s try map!</h2>
+<pre class="r"><code>output= 
+map(list_norm, mean_and_sd)</code></pre>
+<p>What if you want a different function?</p>
+<pre class="r"><code>output= map(list_norm, median)</code></pre>
+</div>
 
 
 
