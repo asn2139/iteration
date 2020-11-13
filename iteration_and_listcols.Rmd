@@ -1,0 +1,11 @@
+---
+title: "iteration_and_listcols"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+
+set.seed(1)
+```
+
